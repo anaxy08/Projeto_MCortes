@@ -1,0 +1,260 @@
+/* ========================
+   IMPORTAÇÃO DE FONTES
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+
+/* ========================
+   BASE E TIPOGRAFIA
+========================= */
+body {
+    background-color: #121212;
+    color: #f1f1f1;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ========================
+   LAYOUT E CONTAINERS
+========================= */
+.container {
+    padding: 30px;
+}
+
+.card {
+    background-color: #1f1f1f;
+    border: none;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card h5 {
+    color: #ffc107;
+}
+
+/* ========================
+   CABEÇALHOS E NAVBAR
+========================= */
+.admin-header,
+.painel-header {
+    background-color: #1e1e1e;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #ffc107;
+}
+
+.admin-header h1 {
+    color: #ffc107;
+    font-size: 24px;
+    margin: 0;
+}
+
+.painel-header {
+    text-align: center;
+    font-size: 20px;
+}
+
+.navbar {
+    background-color: #1e1e1e;
+}
+
+/* ========================
+   BANNERS E HERO
+========================= */
+.hero {
+    background: url('banner.jpg') center/cover no-repeat;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* ========================
+   BOTÕES
+========================= */
+.btn {
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #000;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: #000;
+    border-color: #ffc107;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.logout-btn:hover {
+    background-color: #bd2130;
+    opacity: 0.9;
+}
+
+/* ========================
+   BOTÃO FLUTUANTE (MOBILE)
+========================= */
+.btn-flutuante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+}
+
+.btn-flutuante:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 767px) {
+    .btn-flutuante {
+        display: flex;
+    }
+}
+
+/* ========================
+   TABELAS
+========================= */
+.table-dark {
+    background-color: #222;
+}
+
+.table thead {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.table tbody tr:hover {
+    background-color: #333;
+}
+
+/* ========================
+   FILTROS
+========================= */
+.filtros {
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* ========================
+   FORMULÁRIOS
+========================= */
+#form-agendamento-wrapper {
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+#form-agendamento-wrapper.expandido {
+    max-height: 1000px;
+}
+
+#form-agendamento-wrapper.colapsado {
+    max-height: 0;
+}
+
+/* ========================
+   ANIMAÇÕES
+========================= */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================
+   RESPONSIVIDADE
+========================= */
+@media (max-width: 768px) {
+    .painel-header {
+        font-size: 18px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .logout-btn {
+        position: static;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .filtros {
+        padding: 10px;
+    }
+
+    .filtros label,
+    .filtros input,
+    .filtros select,
+    .filtros button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table td,
+    .table th {
+        white-space: nowrap;
+    }
+
+    .table thead {
+        font-size: 14px;
+    }
+
+    .table tbody tr {
+        font-size: 13px;
+    }
+}
