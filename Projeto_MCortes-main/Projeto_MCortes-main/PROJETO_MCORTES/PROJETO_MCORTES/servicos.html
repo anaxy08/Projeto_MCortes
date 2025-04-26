@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerenciar Serviços</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+  <nav class="navbar navbar-dark px-4">
+    <span class="navbar-brand mb-0 h1">Serviços da Barbearia</span>
+    <button class="btn btn-outline-warning" onclick="voltar()">Voltar</button>
+  </nav>
+
+  <div class="container my-4">
+    <div class="row g-4">
+      <!-- Lista de Serviços -->
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5>Serviços Cadastrados</h5>
+          <ul id="lista-servicos" class="list-group mt-2"></ul>
+        </div>
+      </div>
+
+      <!-- Formulário de Cadastro -->
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h5 id="form-title">Novo Serviço</h5>
+          <form id="form-servico" class="mt-3">
+            <div class="mb-3">
+              <label for="nome" class="form-label">Nome do Serviço</label>
+              <input type="text" id="nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="duracao" class="form-label">Duração (minutos)</label>
+              <input type="number" id="duracao" class="form-control" required min="5" max="180">
+            </div>
+            <input type="hidden" id="editando-index">
+            <button type="submit" class="btn btn-warning w-100">Salvar Serviço</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function voltar() {
+      window.location.href = "painel.html"; // ou a página principal do painel
+    }
+
+    function carregarServicos() {
+      const lista = document.getElementById("lista-servicos");
+      const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+
+      lista.innerHTML = "";
+
+      if (servicos.length === 0) {
+        lista.innerHTML = `<li class="list-group-item bg-dark text-white">Nenhum serviço cadastrado.</li>`;
+        return;
+      }
+
+      servicos.forEach((s, i) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center bg-dark text-white";
+        li.innerHTML = `
+          <span>${s.nome} (${s.duracao} min)</span>
+          <div>
+            <button class="btn btn-sm btn-outline-warning me-2" onclick="editarServico(${i})">✏️</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="removerServico(${i})">🗑️</button>
+          </div>
+        `;
+        lista.appendChild(li);
+      });
+    }
+
+    function salvarServico(e) {
+      e.preventDefault();
+      const nome = document.getElementById("nome").value.trim();
+      const duracao = parseInt(document.getElementById("duracao").value);
+      const index = document.getElementById("editando-index").value;
+
+      let servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+
+      if (index === "") {
+        // Novo serviço
+        servicos.push({ nome, duracao });
+      } else {
+        // Editar existente
+        servicos[index] = { nome, duracao };
+        document.getElementById("form-title").textContent = "Novo Serviço";
+        document.getElementById("editando-index").value = "";
+      }
+
+      localStorage.setItem("servicos", JSON.stringify(servicos));
+      document.getElementById("form-servico").reset();
+      carregarServicos();
+    }
+
+    function editarServico(index) {
+      const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+      const servico = servicos[index];
+      document.getElementById("nome").value = servico.nome;
+      document.getElementById("duracao").value = servico.duracao;
+      document.getElementById("editando-index").value = index;
+      document.getElementById("form-title").textContent = "Editar Serviço";
+    }
+
+    function removerServico(index) {
+      if (!confirm("Deseja remover este serviço?")) return;
+      let servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+      servicos.splice(index, 1);
+      localStorage.setItem("servicos", JSON.stringify(servicos));
+      carregarServicos();
+    }
+
+    document.getElementById("form-servico").addEventListener("submit", salvarServico);
+    carregarServicos();
+  </script>
+</body>
+</html>
