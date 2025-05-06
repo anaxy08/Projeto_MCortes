@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="Agende seu corte na Barbearia MCortes Brasil - estilo, qualidade e tradição.">
+        <meta name="keywords" content="barbearia, cortes, agendamento, cabelo, barba, MCortes, barbearia moderna">
+        <meta name="author" content="MCortes Brasil">
+        
+        <title>Barbearia MCortes Brasil</title>
+        
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+        
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+      
+        <!-- Estilo Customizado -->
+        <link rel="stylesheet" href="style.css"/>
+      
+        <!-- Favicon -->
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+      </head>
+      
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Barbearia MCortes</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#home">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Galeria</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Banner / Hero -->
+  <header id="home" class="hero">
+    <div class="container text-center text-white">
+      <h1>MCORTES BRASIL</h1>
+      <div class="logo"></div>
+      <p>Agende seu corte com os melhores profissionais</p>
+      <a href="#agendamento" class="btn btn-warning btn-lg">Agendar Agora</a>
+    </div>
+  </header>
+
+  <!-- Seção de Agendamento -->
+  <section id="agendamento" class="container my-5">
+    <h2 class="text-center text-warning">Agende Seu Horário</h2>
+    <p class="text-center">Escolha o serviço e um horário disponível.</p>
+
+    <form id="formAgendamento" class="p-4 bg-dark text-white rounded">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" class="form-control" id="nome" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="telefone" class="form-label">Telefone:</label>
+        <input type="tel" class="form-control" id="telefone" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="servico" class="form-label">Serviço:</label>
+        <select class="form-control" id="servico" required>
+          <option value="Corte Simples">Corte Simples - R$30</option>
+          <option value="Corte + Barba">Corte + Barba - R$50</option>
+          <option value="Barba Completa">Barba Completa - R$25</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="horario" class="form-label">Horário:</label>
+        <input type="datetime-local" class="form-control" id="horario" required>
+      </div>
+
+      <button type="submit" class="btn btn-warning w-100">Agendar</button>
+    </form>
+  </section>
+
+  <!-- Seção de Serviços -->
+<section id="services" class="py-5">
+    <div class="container text-center">
+      <h2 class="text-warning mb-4 text-uppercase">Nossos Serviços</h2>
+      <p class="mb-5 text-light">Escolha entre os melhores estilos e tratamentos oferecidos por nossos profissionais.</p>
+  
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
+            <img src="img/corte-simples.png" alt="Corte Simples" class="mb-3" width="60">
+            <h4 class="text-warning">Corte Simples</h4>
+            <p class="text-light">Estilo moderno ou clássico, conforme sua preferência. Inclui lavagem e finalização com pomada.</p>
+            <p class="text-muted">R$30,00</p>
+          </div>
+        </div>
+  
+        <div class="col-md-4">
+          <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
+            <img src="img/corte-barba.png" alt="Corte + Barba" class="mb-3" width="60">
+            <h4 class="text-warning">Corte + Barba</h4>
+            <p class="text-light">Pacote completo com alinhamento de barba e corte de cabelo personalizado.</p>
+            <p class="text-muted">R$50,00</p>
+          </div>
+        </div>
+  
+        <div class="col-md-4">
+          <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
+            <img src="img/barba.png" alt="Barba Completa" class="mb-3" width="60">
+            <h4 class="text-warning">Barba Completa</h4>
+            <p class="text-light">Hidratação, modelagem e acabamento com navalha quente. Para você sair renovado.</p>
+            <p class="text-muted">R$25,00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+   <!--Sesao galeria-->
+   <section id="gallery" class="py-5 bg-dark text-white">
+    <div class="container text-center">
+        <h2 class="text-warning mb-4 text-uppercase">Galeria</h2>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <img src="img/galeria1.jpg" alt="Corte Moderno 1" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-4">
+                <img src="img/galeria2.jpg" alt="Barba Estilizada 1" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-4">
+                <img src="img/galeria3.jpg" alt="Corte Clássico 1" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-4">
+                <img src="img/galeria4.jpg" alt="Penteado 1" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-4">
+                <img src="img/galeria5.jpg" alt="Barba Moderna 1" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-4">
+                <img src="img/galeria6.jpg" alt="Corte Moderno 2" class="img-fluid rounded shadow-sm">
+            </div>
+            </div>
+    </div>
+</section>
+<!--Sessao de Contato-->
+
+<section id="contact" class="py-5 bg-dark text-white">
+    <div class="container text-center">
+        <h2 class="text-warning mb-4 text-uppercase">Contato</h2>
+        <p class="mb-4 text-light">Estamos ansiosos para ouvir você! Entre em contato conosco pelos seguintes meios:</p>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5 class="text-warning">Endereço</h5>
+                <p class="text-light">Av. Luís Pires de Minas, 837 - Jardim Imperador (Zona Leste), São Paulo - SP, 03933-070</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5 class="text-warning">Telefone</h5>
+                <p class="text-light"> (11) 99452-7892</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5 class="text-warning">E-mail</h5>
+                <p class="text-light">contato@mcortesbrasil.com.br</p>
+            </div>
+            < class="col-md-12">
+                <h5 class="text-warning">Horário de Funcionamento</h5>
+                <p class="text-light">Segunda a Sexta: 9h às 22h<br>Sábado: 9h às 19h</p>
+
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h4 class="text-warning text-center mb-4 text-uppercase">Nossa Localização</h4>
+                    <div class="map-responsive">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.474898900534!2d-46.5001882!3d-23.5872955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce6799d8993013%3A0x86918fb8f60c845c!2sAv.%20Lu%C3%ADs%20Pires%20de%20Minas%2C%20837%20-%20Cidade%20Centen%C3%A1rio%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2003933-070!5e0!3m2!1spt-BR!2sbr!4v1746570243210!5m2!1spt-BR!2sbr" 
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-8 offset-md-2">
+                <h4 class="text-warning text-center mb-4 text-uppercase">Envie sua Mensagem</h4>
+                <form id="formContato" class="p-4 bg-secondary text-white rounded">
+                    <div class="mb-3">
+                        <label for="nomeContato" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" id="nomeContato" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailContato" class="form-label">E-mail:</label>
+                        <input type="email" class="form-control" id="emailContato" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mensagemContato" class="form-label">Mensagem:</label>
+                        <textarea class="form-control" id="mensagemContato" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

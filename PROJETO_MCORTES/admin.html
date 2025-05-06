@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Administrador - Barbearia MCortes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem("autenticado") !== "true" || localStorage.getItem("tipoUsuario") !== "admin") {
+          window.location.href = "login.html";
+        }
+      </script>
+
+      <script>
+        function logout(){
+            localStorage.removeItem("autenticado");
+            localStorage.removeItem("tipoUsuario");
+            window.localStorage.href = "login.html";
+        }
+      </script>
+    <!-- Navbar Admin -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Barbearia MCortesBrasil</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Voltar para o site</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</nav>
+
+<div class="container my-4">
+  <div class="row g-3">
+    <!-- Resumo -->
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Total de Agendamentos</h5>
+        <p class="display-6" id="total-agendamentos">0</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Serviços Cadastrados</h5>
+        <p class="display-6" id="total-servicos">0</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Usuários Online</h5>
+        <p class="display-6">1</p> <!-- Simulação -->
+      </div>
+    </div>
+
+    <!-- Lista de Agendamentos -->
+    <div class="col-12">
+      <div class="card p-3">
+        <h5>Lista de Agendamentos</h5>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped mt-3">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Serviço</th>
+                <th>Data</th>
+                <th>Hora</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-agendamentos">
+              <tr><td colspan="4">Carregando agendamentos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gerenciamento de Serviços -->
+    <div class="col-12">
+      <div class="card p-3">
+        <h5>Serviços Cadastrados</h5>
+        <form id="form-servico" class="d-flex mb-3">
+          <input type="text" id="novo-servico" class="form-control me-2" placeholder="Novo serviço" required>
+          <button type="submit" class="btn btn-warning">Adicionar</button>
+        </form>
+        <ul id="lista-servicos" class="list-group list-group-flush">
+          <li class="list-group-item bg-dark text-white">Carregando...</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="col-12">
+      <div class="card p-3">
+        <h5>Estatísticas da Semana</h5>
+        <ul class="mt-3">
+          <li>Total de agendamentos na semana: <strong id="total-semana">...</strong></li>
+          <li>Serviço mais solicitado: <strong id="servico-popular">...</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Logout
+  function logout() {
+    localStorage.removeItem("adminLogado");
+    window.location.href = "login.html";
+  }
+
+  // Agendamentos
+  function carregarAgendamentos() {
+    const tabela = document.getElementById("tabela-agendamentos");
+    const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+
+    document.getElementById("total-agendamentos").textContent = agendamentos.length;
+
+    if (agendamentos.length === 0) {
+      tabela.innerHTML = `<tr><td colspan="4">Nenhum agendamento encontrado.</td></tr>`;
+      return;
+    }
+
+    tabela.innerHTML = "";
+    agendamentos.forEach(ag => {
+      const linha = document.createElement("tr");
+      linha.innerHTML = `
+        <td>${ag.nome}</td>
+        <td>${ag.servico}</td>
+        <td>${ag.data}</td>
+        <td>${ag.hora}</td>
+      `;
+      tabela.appendChild(linha);
+    });
+  }
+
+  // Serviços
+  function carregarServicos() {
+    const lista = document.getElementById("lista-servicos");
+    const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+
+    document.getElementById("total-servicos").textContent = servicos.length;
+
+    if (servicos.length === 0) {
+      lista.innerHTML = `<li class="list-group-item bg-dark text-white">Nenhum serviço cadastrado.</li>`;
+      return;
+    }
+
+    lista.innerHTML = "";
+    servicos.forEach((servico, index) => {
+      const item = document.createElement("li");
+      item.className = "list-group-item bg-dark text-white d-flex justify-content-between align-items-center";
+      item.innerHTML = `
+        ${servico}
+        <button class="btn btn-sm btn-danger" onclick="removerServico(${index})">Remover</button>
+      `;
+      lista.appendChild(item);
+    });
+  }
+
+  function adicionarServico(event) {
+    event.preventDefault();
+    const input = document.getElementById("novo-servico");
+    const nome = input.value.trim();
+    if (!nome) return;
+
+    const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+    servicos.push(nome);
+    localStorage.setItem("servicos", JSON.stringify(servicos));
+    input.value = "";
+    carregarServicos();
+  }
+
+  function removerServico(index) {
+    const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+    servicos.splice(index, 1);
+    localStorage.setItem("servicos", JSON.stringify(servicos));
+    carregarServicos();
+  }
+
+  // Estatísticas da semana
+  function calcularEstatisticas() {
+    const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+
+    if (agendamentos.length === 0) {
+      document.getElementById("total-semana").textContent = "0";
+      document.getElementById("servico-popular").textContent = "Nenhum";
+      return;
+    }
+
+    const hoje = new Date();
+    const inicioSemana = new Date(hoje);
+    inicioSemana.setDate(hoje.getDate() - hoje.getDay());
+
+    let totalSemana = 0;
+    const contagemServicos = {};
+
+    agendamentos.forEach(ag => {
+      const dataAg = new Date(ag.data);
+      if (dataAg >= inicioSemana && dataAg <= hoje) {
+        totalSemana++;
+        contagemServicos[ag.servico] = (contagemServicos[ag.servico] || 0) + 1;
+      }
+    });
+
+    let maisPopular = "Nenhum";
+    let max = 0;
+    for (let servico in contagemServicos) {
+      if (contagemServicos[servico] > max) {
+        max = contagemServicos[servico];
+        maisPopular = servico;
+      }
+    }
+
+    document.getElementById("total-semana").textContent = totalSemana;
+    document.getElementById("servico-popular").textContent = maisPopular;
+  }
+
+  // Inicializa
+  carregarAgendamentos();
+  carregarServicos();
+  calcularEstatisticas();
+  document.getElementById("form-servico").addEventListener("submit", adicionarServico);
+</script>
+
+</body>
+</html>
