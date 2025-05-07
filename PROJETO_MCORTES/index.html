@@ -21,6 +21,8 @@
         <link rel="stylesheet" href="style.css"/>
       
         <!-- Favicon -->
+        <!--Bootstrap Icons-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="icon" href="favicon.ico" type="image/x-icon">
       </head>
       
@@ -47,7 +49,6 @@
   <!-- Banner / Hero -->
   <header id="home" class="hero">
     <div class="container text-center text-white">
-      <h1>MCORTES BRASIL</h1>
       <div class="logo"></div>
       <p>Agende seu corte com os melhores profissionais</p>
       <a href="#agendamento" class="btn btn-warning btn-lg">Agendar Agora</a>
@@ -73,9 +74,6 @@
       <div class="mb-3">
         <label for="servico" class="form-label">Serviço:</label>
         <select class="form-control" id="servico" required>
-          <option value="Corte Simples">Corte Simples - R$30</option>
-          <option value="Corte + Barba">Corte + Barba - R$50</option>
-          <option value="Barba Completa">Barba Completa - R$25</option>
         </select>
       </div>
 
@@ -87,6 +85,69 @@
       <button type="submit" class="btn btn-warning w-100">Agendar</button>
     </form>
   </section>
+    </form>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... (seu código de preenchimento do select de serviços) ...
+
+        const formAgendamento = document.getElementById('formAgendamento');
+        formAgendamento.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o envio padrão do formulário
+
+            const nome = document.getElementById('nome').value;
+            const telefone = document.getElementById('telefone').value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            const servico = document.getElementById('servico').value;
+            const horario = document.getElementById('horario').value;
+
+            if (nome && telefone && servico && horario) {
+                const mensagem = `Olá, gostaria de agendar um serviço.\nNome: ${nome}\nTelefone: ${telefone}\nServiço: ${servico}\nHorário: ${formatarDataHoraWhatsApp(horario)}`;
+                const numeroWhatsApp = '1197658126'; // Substitua pelo seu número
+                const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+
+                window.open(linkWhatsApp, '_blank'); // Abre o WhatsApp em uma nova aba
+
+                // Salvar o agendamento no localStorage
+                salvarAgendamento(nome, servico, formatarData(horario), formatarHora(horario));
+                formAgendamento.reset(); // Limpa o formulário após o agendamento (opcional)
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        });
+
+        function formatarDataHoraWhatsApp(dateTimeLocal) {
+            const data = new Date(dateTimeLocal);
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            const hora = String(data.getHours()).padStart(2, '0');
+            const minuto = String(data.getMinutes()).padStart(2, '0');
+            return `${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+        }
+
+        function formatarData(dateTimeLocal) {
+            const data = new Date(dateTimeLocal);
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            return `${ano}-${mes}-${dia}`;
+        }
+
+        function formatarHora(dateTimeLocal) {
+            const data = new Date(dateTimeLocal);
+            const hora = String(data.getHours()).padStart(2, '0');
+            const minuto = String(data.getMinutes()).padStart(2, '0');
+            return `${hora}:${minuto}`;
+        }
+
+        function salvarAgendamento(nome, servico, data, hora) {
+            const agendamentos = JSON.parse(localStorage.getItem('agendamentos')) || [];
+            agendamentos.push({ nome, servico, data, hora });
+            localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
+        }
+    });
+</script>
 
   <!-- Seção de Serviços -->
 <section id="services" class="py-5">
@@ -97,32 +158,30 @@
       <div class="row g-4">
         <div class="col-md-4">
           <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
-            <img src="img/corte-simples.png" alt="Corte Simples" class="mb-3" width="60">
-            <h4 class="text-warning">Corte Simples</h4>
-            <p class="text-light">Estilo moderno ou clássico, conforme sua preferência. Inclui lavagem e finalização com pomada.</p>
-            <p class="text-muted">R$30,00</p>
+              <img src="imagem5.jpg" alt="Ícone de um corte de cabelo simples" class="mb-3" width="60">
+              <h4 class="text-warning">Corte Americano</h4>
+              <p class="text-light">Estilo moderno ou clássico, conforme sua preferência. Inclui lavagem e finalização com pomada.</p>
+              <p class="text-muted">R$40,00</p>
           </div>
-        </div>
-  
-        <div class="col-md-4">
-          <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
-            <img src="img/corte-barba.png" alt="Corte + Barba" class="mb-3" width="60">
-            <h4 class="text-warning">Corte + Barba</h4>
-            <p class="text-light">Pacote completo com alinhamento de barba e corte de cabelo personalizado.</p>
-            <p class="text-muted">R$50,00</p>
-          </div>
-        </div>
-  
-        <div class="col-md-4">
-          <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
-            <img src="img/barba.png" alt="Barba Completa" class="mb-3" width="60">
-            <h4 class="text-warning">Barba Completa</h4>
-            <p class="text-light">Hidratação, modelagem e acabamento com navalha quente. Para você sair renovado.</p>
-            <p class="text-muted">R$25,00</p>
-          </div>
-        </div>
       </div>
-    </div>
+      
+      <div class="col-md-4">
+          <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
+              <img src="imagem8.jpg" alt="Ícone de um rosto com barba e cabelo" class="mb-3" width="60">
+              <h4 class="text-warning">Corte + Barba</h4>
+              <p class="text-light">Pacote completo com alinhamento de barba e corte de cabelo personalizado.</p>
+              <p class="text-muted">R$50,00</p>
+          </div>
+      </div>
+      
+      <div class="col-md-4">
+          <div class="p-4 bg-dark border border-secondary rounded shadow-sm h-100">
+              <img src="imagem1.jpg" alt="Ícone de uma barba estilizada" class="mb-3" width="60">
+              <h4 class="text-warning">Trança Box</h4>
+              <p class="text-light">Disponível em diversas versões, as tranças podem ser feitas com o cabelo natural e os cabelos orgânicos e proporcionam praticidade nos cuidados capilares do dia a dia.</p>
+              <p class="text-muted">R$70,00<p>
+          </div>
+      </div>
   </section>
   
    <!--Sesao galeria-->
@@ -130,25 +189,24 @@
     <div class="container text-center">
         <h2 class="text-warning mb-4 text-uppercase">Galeria</h2>
         <div class="row g-3">
-            <div class="col-md-4">
-                <img src="img/galeria1.jpg" alt="Corte Moderno 1" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="img/galeria2.jpg" alt="Barba Estilizada 1" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="img/galeria3.jpg" alt="Corte Clássico 1" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="img/galeria4.jpg" alt="Penteado 1" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="img/galeria5.jpg" alt="Barba Moderna 1" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-4">
-                <img src="img/galeria6.jpg" alt="Corte Moderno 2" class="img-fluid rounded shadow-sm">
-            </div>
-            </div>
+          <div class="col-md-4">
+            <img src="imagem9.jpg" alt="Corte Infantil" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <img src="imagem15.jpg" alt="Barba estilizada com linhas precisas" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <img src="imagem14.jpg" alt="Corte de cabelo clássico com penteado elegante" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <img src="imagem4.jpg" alt="Americano" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <img src="imagem12.jpg" alt="Clássico corte e barba com degradê" class="img-fluid rounded shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <img src="imagem2.jpg" alt="Corte de cabelo masculino com risca lateral definida" class="img-fluid rounded shadow-sm">
+        </div>
     </div>
 </section>
 <!--Sessao de Contato-->
@@ -203,10 +261,75 @@
             </div>
         </div>
     </div>
+    <footer class="bg-dark text-light py-4 mt-5">
+      <div class="container text-center">
+          <p>&copy; 2025 Barbearia MCortes Brasil. Todos os direitos reservados.</p>
+          <div class="mt-2">
+              <a href="#" class="text-light"><i class="bi bi-whatsapp"></i></a>
+              <a href="https://www.instagram.com/barbeariamcortesbrasil?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="text-light me-3" target="_blank"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="text-light me-3"><i class="bi bi-facebook"></i></a>
+              
+          </div>
+          <p class="mt-2">Av. Luís Pires de Minas, 837 - Jardim Imperador (Zona Leste), São Paulo - SP - CEP 03933-070</p>
+          
+      </div>
+  </footer>
 </section>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
+</div>
+</footer>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const servicoSelect = document.getElementById('servico');
+const servicosSalvos = localStorage.getItem('servicos');
+
+if (servicosSalvos) {
+    const servicosArray = JSON.parse(servicosSalvos);
+    servicosArray.forEach(servico => {
+        const option = document.createElement('option');
+        option.value = servico;
+        option.textContent = servico;
+        servicoSelect.appendChild(option);
+    });
+
+    if (servicosArray.length === 0 && servicoSelect.options.length === 1) {
+        const option1 = document.createElement('option');
+        option1.value = "Corte Simples";
+        option1.textContent = "Corte Simples - R$40";
+        servicoSelect.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = "Corte + Barba";
+        option2.textContent = "Corte + Barba - R$50";
+        servicoSelect.appendChild(option2);
+
+        const option3 = document.createElement('option');
+        option3.value = "Barba Completa";
+        option3.textContent = "Barba Completa - R$25";
+        servicoSelect.appendChild(option3);
+    }
+} else {
+    const option1 = document.createElement('option');
+    option1.value = "Corte Simples";
+    option1.textContent = "Corte Simples - R$40";
+    servicoSelect.appendChild(option1);
+
+    const option2 = document.createElement('option');
+    option2.value = "Corte + Barba";
+    option2.textContent = "Corte + Barba - R$50";
+    servicoSelect.appendChild(option2);
+
+    const option3 = document.createElement('option');
+    option3.value = "Barba Completa";
+    option3.textContent = "Barba Completa - R$25";
+    servicoSelect.appendChild(option3);
+}
+});
+</script>
+<script src="script.js"></script>
 </body>
 </html>

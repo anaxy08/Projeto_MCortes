@@ -72,7 +72,7 @@ p {
     position: relative; 
 }
 
-/* Sobreposição escura (opcional) */
+/* Sobreposição escura */
 .hero::before {
     content: '';
     position: absolute;
@@ -81,7 +81,7 @@ p {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* Preto com 50% de opacidade */
-    z-index: 1; /* Manter a sobreposição atrás do texto */
+    z-index: 1; 
 }
 
 .hero .container {
@@ -102,13 +102,14 @@ p {
 .logo{
     display: block;
     width: 2em;
-    height: 2em;
-    background-image: url('logoo.png'); 
+    height: 5em;
+    background-image: url('logo_mcortes_transparente.png'); 
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
-    margin: 0.5rem auto; 
-    text-indent: -9900px;  
+    background-size: contain; 
+    width: 250px; 
+    height: 250px;
+    margin: 1rem auto;
 }
 
 .hero p {
@@ -325,8 +326,9 @@ html {
     transition: transform 0.3s ease; /* Para o efeito hover */
 }
 
-#services .card img {
-    width: 70px; /* Aumenta um pouco o tamanho dos ícones */
+#services img{
+    width: 200px; 
+    height: auto; 
     margin-bottom: 1rem;
 }
 
@@ -371,12 +373,14 @@ html {
 }
 
 #gallery img {
+    max-height: 200px;
+    width: auto;
     transition: transform 0.3s ease; 
 }
 
 #gallery img:hover {
     transform: scale(1.05); 
-    cursor: pointer; /*imagem pode ser clicada (mesmo que não tenhamos a funcionalidade de clique ainda) */
+    cursor: pointer; /*imagem pode ser clicada (mesmo que não a funcionalidade de clique ainda) */
 }
 
 /*Sessao Contato*/
@@ -471,4 +475,36 @@ html {
     height: 100%;
     width: 100%;
     position: absolute;
+}
+/*Roda pé */
+footer .mt-2 a {
+    margin-right: 15px;
+}
+
+footer .mt-2 a:last-child {
+    margin-right: 0; 
+} 
+
+footer a {
+    font-size: 1.5rem; /* Tamanho dos ícones de redes sociais */
+    text-decoration: none; /* Remove o sublinhado dos links */
+}
+
+footer a:hover {
+    color: var(--primary-color) !important; /* Cor primária ao passar o mouse nos ícones */
+}
+
+
+
+.navbar-dark .navbar-nav .nav-link {
+    color: var(--light-color) !important; 
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: var(--primary-color) !important; 
+}
+
+.navbar-dark .navbar-collapse {
+    background-color: var(--secondary-color);
 }
