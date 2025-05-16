@@ -42,3 +42,8 @@ background-repeat: no-repeat;
 background-position: center; 
 background-size: cover;
 }
+
+
+salvar dados de serviços para todos os usuarios online, assim, todos tendo acesso as atualização feita falta, sem perder os dados salvos 
+mexer com arquivo servicos.html e pailn.html 
+resaltar as escritas e ajustes, implementar as integracoes em admin, assim tendo acesso rapido a todas as páginas 
