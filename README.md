@@ -47,3 +47,6 @@ background-size: cover;
 salvar dados de serviços para todos os usuarios online, assim, todos tendo acesso as atualização feita falta, sem perder os dados salvos 
 mexer com arquivo servicos.html e pailn.html 
 resaltar as escritas e ajustes, implementar as integracoes em admin, assim tendo acesso rapido a todas as páginas 
+incluir em index um formulario onde o cliente vai ter o obsção de escolher o barbeiro de preferencia, assim logo crinado "QUEM SOMOS ", apresentando todos os funcionarios a baixo
+
+planos: criar campo onde clientes que busca emprego, acessar menu e "TRABALHE CONOSCO", verificando servicos disponiveis e enviar currículo direto para o dono da barbearia 
