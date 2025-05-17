@@ -50,3 +50,4 @@ resaltar as escritas e ajustes, implementar as integracoes em admin, assim tendo
 incluir em index um formulario onde o cliente vai ter o obsção de escolher o barbeiro de preferencia, assim logo crinado "QUEM SOMOS ", apresentando todos os funcionarios a baixo
 
 planos: criar campo onde clientes que busca emprego, acessar menu e "TRABALHE CONOSCO", verificando servicos disponiveis e enviar currículo direto para o dono da barbearia 
+o diminuir formulario de "enviar mensagem", melhorar o formulario de agendamento (calendario, bloando dias indisponiveis, horarios disponivel para atendimento)
