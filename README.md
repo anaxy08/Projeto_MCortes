@@ -62,160 +62,236 @@ ATUALIZAR (SERVICOS.HTML)
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gerenciar Serviços</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-  <style>
-    body {
-      background-color: #121212;
-      color: white;
-    }
-    .navbar {
-      background-color: #1f1f1f;
-      border-bottom: 1px solid #ffc107;
-    }
-    .card {
-      background-color: #1e1e1e;
-      border: 1px solid #333;
-    }
-    .form-label {
-      color: #fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Administrador - Barbearia MCortes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <nav class="navbar navbar-dark px-4">
-    <span class="navbar-brand mb-0 h1">Serviços da Barbearia</span>
-    <button class="btn btn-outline-warning" onclick="voltar()">Voltar</button>
-  </nav>
+    <script>
+        if (localStorage.getItem("autenticado") !== "true" || localStorage.getItem("tipoUsuario") !== "admin") {
+          window.location.href = "login.html";
+        }
+      </script>
 
-  <div class="container my-4">
-    <div class="row g-4">
-      <!-- Lista de Serviços -->
-      <div class="col-md-6">
-        <div class="card p-3">
-          <h5>Serviços Cadastrados</h5>
-          <ul id="lista-servicos" class="list-group mt-2"></ul>
-          <button class="btn btn-outline-danger mt-3 w-100" onclick="limparServicos()">Limpar Todos</button>
+      <script>
+        function logout(){
+            localStorage.removeItem("autenticado");
+            localStorage.removeItem("tipoUsuario");
+            window.localStorage.href = "login.html";
+        }
+      </script>
+    <!-- Navbar Admin -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Barbearia MCortesBrasil</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Voltar para o site</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
+    </nav>
+</nav>
 
-      <!-- Formulário de Cadastro -->
-      <div class="col-md-6">
-        <div class="card p-3">
-          <h5 id="form-title">Novo Serviço</h5>
-          <form id="form-servico" class="mt-3">
-            <div class="mb-3">
-              <label for="nome" class="form-label">Nome do Serviço</label>
-              <input type="text" id="nome" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label for="duracao" class="form-label">Duração (minutos)</label>
-              <input type="number" id="duracao" class="form-control" required min="5" max="180" placeholder="Ex: 30">
-            </div>
-            <input type="hidden" id="editando-index">
-            <button type="submit" class="btn btn-warning w-100">Salvar Serviço</button>
-          </form>
+<div class="container my-4">
+  <div class="row g-3">
+    <!-- Resumo -->
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Total de Agendamentos</h5>
+        <p class="display-6" id="total-agendamentos">0</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Serviços Cadastrados</h5>
+        <p class="display-6" id="total-servicos">0</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h5>Usuários Online</h5>
+        <p class="display-6">1</p> <!-- Simulação -->
+      </div>
+    </div>
+
+    <!-- Lista de Agendamentos -->
+    <div class="col-12">
+      <div class="card p-3">
+        <h5>Lista de Agendamentos</h5>
+        <div class="table-responsive">
+          <table class="table table-dark table-striped mt-3">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Serviço</th>
+                <th>Data</th>
+                <th>Hora</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-agendamentos">
+              <tr><td colspan="4">Carregando agendamentos...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+
+    <!-- Gerenciamento de Serviços -->
+    <div class="col-12">
+      <div class="card p-3">
+        <h5>Serviços Cadastrados</h5>
+        <form id="form-servico" class="d-flex mb-3">
+          <input type="text" id="novo-servico" class="form-control me-2" placeholder="Novo serviço" required>
+          <button type="submit" class="btn btn-warning">Adicionar</button>
+        </form>
+        <ul id="lista-servicos" class="list-group list-group-flush">
+          <li class="list-group-item bg-dark text-white">Carregando...</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="col-12">
+      <div class="card p-3">
+        <h5>Estatísticas da Semana</h5>
+        <ul class="mt-3">
+          <li>Total de agendamentos na semana: <strong id="total-semana">...</strong></li>
+          <li>Serviço mais solicitado: <strong id="servico-popular">...</strong></li>
+        </ul>
+      </div>
+    </div>
   </div>
+</div>
 
-  <script>
-    function voltar() {
-      window.location.href = "painel.html"; // ou a página principal do painel
+<script>
+  // Logout
+  function logout() {
+    localStorage.removeItem("adminLogado");
+    window.location.href = "login.html";
+  }
+
+  // Agendamentos
+  function carregarAgendamentos() {
+    const tabela = document.getElementById("tabela-agendamentos");
+    const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+
+    document.getElementById("total-agendamentos").textContent = agendamentos.length;
+
+    if (agendamentos.length === 0) {
+      tabela.innerHTML = `<tr><td colspan="4">Nenhum agendamento encontrado.</td></tr>`;
+      return;
     }
 
-    function carregarServicos() {
-      const lista = document.getElementById("lista-servicos");
-      const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+    tabela.innerHTML = "";
+    agendamentos.forEach(ag => {
+      const linha = document.createElement("tr");
+      linha.innerHTML = `
+        <td>${ag.nome}</td>
+        <td>${ag.servico}</td>
+        <td>${ag.data}</td>
+        <td>${ag.hora}</td>
+      `;
+      tabela.appendChild(linha);
+    });
+  }
+  document.addEventListener('DOMContentLoaded', carregarAgendamentos);
 
-      lista.innerHTML = "";
+  // Serviços
+  function carregarServicos() {
+    const lista = document.getElementById("lista-servicos");
+    const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
 
-      if (servicos.length === 0) {
-        lista.innerHTML = `<li class="list-group-item bg-dark text-white">Nenhum serviço cadastrado.</li>`;
-        return;
-      }
+    document.getElementById("total-servicos").textContent = servicos.length;
 
-      servicos.sort((a, b) => a.nome.localeCompare(b.nome));
-
-      servicos.forEach((s, i) => {
-        const li = document.createElement("li");
-        li.className = "list-group-item d-flex justify-content-between align-items-center bg-dark text-white";
-        li.innerHTML = `
-          <span>${s.nome} (${s.duracao} min)</span>
-          <div>
-            <button class="btn btn-sm btn-outline-warning me-2" aria-label="Editar serviço" onclick="editarServico(${i})">✏️</button>
-            <button class="btn btn-sm btn-outline-danger" aria-label="Remover serviço" onclick="removerServico(${i})">🗑️</button>
-          </div>
-        `;
-        lista.appendChild(li);
-      });
+    if (servicos.length === 0) {
+      lista.innerHTML = `<li class="list-group-item bg-dark text-white">Nenhum serviço cadastrado.</li>`;
+      return;
     }
 
-    function salvarServico(e) {
-      e.preventDefault();
-      const nome = document.getElementById("nome").value.trim();
-      const duracao = parseInt(document.getElementById("duracao").value);
-      const index = document.getElementById("editando-index").value;
+    lista.innerHTML = "";
+    servicos.forEach((servico, index) => {
+      const item = document.createElement("li");
+      item.className = "list-group-item bg-dark text-white d-flex justify-content-between align-items-center";
+      item.innerHTML = `
+        ${servico}
+        <button class="btn btn-sm btn-danger" onclick="removerServico(${index})">Remover</button>
+      `;
+      lista.appendChild(item);
+    });
+  }
 
-      let servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+  function adicionarServico(event) {
+    event.preventDefault();
+    const input = document.getElementById("novo-servico");
+    const nome = input.value.trim();
+    if (!nome) return;
 
-      if (index === "") {
-        // Evitar duplicatas
-        if (servicos.some(s => s.nome.toLowerCase() === nome.toLowerCase())) {
-          alert("Este serviço já está cadastrado.");
-          return;
-        }
-        servicos.push({ nome, duracao });
-        mostrarMensagem("Serviço adicionado com sucesso!");
-      } else {
-        servicos[index] = { nome, duracao };
-        document.getElementById("form-title").textContent = "Novo Serviço";
-        document.getElementById("editando-index").value = "";
-        mostrarMensagem("Serviço editado com sucesso!");
-      }
-
-      localStorage.setItem("servicos", JSON.stringify(servicos));
-      document.getElementById("form-servico").reset();
-      carregarServicos();
-    }
-
-    function editarServico(index) {
-      const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
-      const servico = servicos[index];
-      document.getElementById("nome").value = servico.nome;
-      document.getElementById("duracao").value = servico.duracao;
-      document.getElementById("editando-index").value = index;
-      document.getElementById("form-title").textContent = "Editar Serviço";
-    }
-
-    function removerServico(index) {
-      if (!confirm("Deseja remover este serviço?")) return;
-      let servicos = JSON.parse(localStorage.getItem("servicos")) || [];
-      servicos.splice(index, 1);
-      localStorage.setItem("servicos", JSON.stringify(servicos));
-      carregarServicos();
-    }
-
-    function limparServicos() {
-      if (confirm("Deseja remover todos os serviços?")) {
-        localStorage.removeItem("servicos");
-        carregarServicos();
-      }
-    }
-
-    function mostrarMensagem(msg, tipo = "success") {
-      const div = document.createElement("div");
-      div.className = `alert alert-${tipo} mt-3`;
-      div.textContent = msg;
-      document.querySelector(".card form").appendChild(div);
-      setTimeout(() => div.remove(), 3000);
-    }
-
-    document.getElementById("form-servico").addEventListener("submit", salvarServico);
+    const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+    servicos.push(nome);
+    localStorage.setItem("servicos", JSON.stringify(servicos));
+    input.value = "";
     carregarServicos();
-  </script>
+  }
+
+  function removerServico(index) {
+    const servicos = JSON.parse(localStorage.getItem("servicos")) || [];
+    servicos.splice(index, 1);
+    localStorage.setItem("servicos", JSON.stringify(servicos));
+    carregarServicos();
+  }
+
+  // Estatísticas da semana
+  function calcularEstatisticas() {
+    const agendamentos = JSON.parse(localStorage.getItem("agendamentos")) || [];
+
+    if (agendamentos.length === 0) {
+      document.getElementById("total-semana").textContent = "0";
+      document.getElementById("servico-popular").textContent = "Nenhum";
+      return;
+    }
+
+    const hoje = new Date();
+    const inicioSemana = new Date(hoje);
+    inicioSemana.setDate(hoje.getDate() - hoje.getDay());
+
+    let totalSemana = 0;
+    const contagemServicos = {};
+
+    agendamentos.forEach(ag => {
+      const dataAg = new Date(ag.data);
+      if (dataAg >= inicioSemana && dataAg <= hoje) {
+        totalSemana++;
+        contagemServicos[ag.servico] = (contagemServicos[ag.servico] || 0) + 1;
+      }
+    });
+
+    let maisPopular = "Nenhum";
+    let max = 0;
+    for (let servico in contagemServicos) {
+      if (contagemServicos[servico] > max) {
+        max = contagemServicos[servico];
+        maisPopular = servico;
+      }
+    }
+
+    document.getElementById("total-semana").textContent = totalSemana;
+    document.getElementById("servico-popular").textContent = maisPopular;
+  }
+
+  // Inicializa
+  carregarAgendamentos();
+  carregarServicos();
+  calcularEstatisticas();
+  document.getElementById("form-servico").addEventListener("submit", adicionarServico);
+</script>
+
 </body>
 </html>
